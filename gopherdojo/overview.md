@@ -1,12 +1,14 @@
 # Gopherdojo7 LT大会発表資料
 
+[スライド](https://docs.google.com/presentation/d/1X95CB6PJ8E4hfNaX2RTvA8O_3nWk63Yvyumq_AvKZbI/edit#slide=id.g645a8cb291_4_13)
+
 ## テーマ
 
 ### t.Errorf を考えよう
 
 ## トークフロー
 
-### 1. Goではなんでテススティングフレームワーク(アサーションテストを含む)を使わないんだっけ？
+### 1. Goではなんでテスティングフレームワーク(アサーションテストを含む)を使わないんだっけ？
 
 #### [Why does Go not have assertions? ](https://golang.org/doc/faq#assertions)
 
