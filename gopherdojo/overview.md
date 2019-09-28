@@ -1,6 +1,6 @@
 # Gopherdojo7 LT大会発表資料
 
-[スライド](https://docs.google.com/presentation/d/1X95CB6PJ8E4hfNaX2RTvA8O_3nWk63Yvyumq_AvKZbI/edit#slide=id.g645a8cb291_4_13)
+[スライド](https://docs.google.com/presentation/d/1X95CB6PJ8E4hfNaX2RTvA8O_3nWk63Yvyumq_AvKZbI)
 
 ## テーマ
 
