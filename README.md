@@ -10,4 +10,4 @@
 
 - ロゴ : https://github.com/NasSilverBullet/presentations/blob/master/resources/slide-logo.png
 
-![slide-logo](resources/slide-logo.jpg)
+![slide-logo](resources/slide-logo.png)
