@@ -2,8 +2,12 @@
 
 ## Google Slide
 
-テーマ : スレート
+- テーマ : スレート
+- フォント(英) : Asap 標準
+- フォント(日) : ヒラギノ丸ゴ ProN
 
-フォント(英) : Asap 標準
+## Resources
 
-フォント(日) : ヒラギノ丸ゴ ProN
+- ロゴ : https://github.com/NasSilverBullet/presentations/blob/master/resources/slide-logo.png
+
+![slide-logo](resources/slide-logo.jpg)
