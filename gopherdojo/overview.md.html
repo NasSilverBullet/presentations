@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/go/src/github.com/NasSilverBullet/presentations/gopherdojo/overview.md.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim8.1_v1">
+<meta name="syntax" content="markdown">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="onedark">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #afafaf; background-color: rgba(51,153,255,0); }
+body { font-family: monospace; color: #afafaf; background-color: rgba(51,153,255,0); }
+* { font-size: 24pt; }
+.markdownLinkText { color: #00afff; }
+.markdownLinkDelimiter { color: #afafaf; }
+.markdownUrl { color: #d75fd7; }
+.PreProc { color: #d7af87; }
+.markdownHeadingDelimiter { color: #ff5f87; }
+.markdownH1 { color: #ff5f87; }
+.markdownH2 { color: #ff5f87; }
+.markdownH3 { color: #ff5f87; }
+.markdownH4 { color: #ff5f87; }
+.Error { color: #ff5f87; }
+.goFunctionCall { color: #00afff; }
+.String { color: #87d787; }
+.markdownCodeDelimiter { color: #87d787; }
+.Special { color: #00afff; }
+.markdownBlockquote { color: #5f5f5f; }
+.markdownListMarker { color: #ff5f87; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="markdownHeadingDelimiter">#</span><span class="markdownH1"> Gopherdojo7 LT大会発表資料</span>
+
+[<span class="markdownLinkText">スライド</span>]<span class="markdownLinkDelimiter">(</span><span class="markdownUrl"><a href="https://docs.google.com/presentation/d/1X95CB6PJ8E4hfNaX2RTvA8O_3nWk63Yvyumq_AvKZbI">https://docs.google.com/presentation/d/1X95CB6PJ8E4hfNaX2RTvA8O_3nWk63Yvyumq_AvKZbI</a></span><span class="markdownLinkDelimiter">)</span>
+
+<span class="markdownHeadingDelimiter">##</span><span class="markdownH2"> テーマ</span>
+
+<span class="markdownHeadingDelimiter">###</span><span class="markdownH3"> t.Errorf を考えよう</span>
+
+<span class="markdownHeadingDelimiter">##</span><span class="markdownH2"> トークフロー</span>
+
+<span class="markdownHeadingDelimiter">###</span><span class="markdownH3"> 1. Goではなんでテスティングフレームワーク(アサーションテストを含む)を使わないんだっけ？</span>
+
+<span class="markdownHeadingDelimiter">####</span><span class="markdownH4"> </span>[<span class="markdownLinkText">Why does Go not have assertions? </span>]<span class="markdownLinkDelimiter">(</span><span class="markdownUrl"><a href="https://golang.org/doc/faq#assertions">https://golang.org/doc/faq#assertions</a></span><span class="markdownLinkDelimiter">)</span>
+
+<span class="markdownListMarker">-</span> アサーションテストは便利
+<span class="markdownListMarker">-</span> でも楽しようとしてるだけじゃね？
+<span class="markdownListMarker">-</span> エラーレポートが適当になったら意味ないぜ
+<span class="markdownListMarker">-</span> 適切なエラーハンドリングをしようぜ
+<span class="markdownListMarker">-</span> これが当たり前ではないのはわかってる
+
+=&gt; 適切なエラーハンドリングをするため
+
+<span class="markdownHeadingDelimiter">###</span><span class="markdownH3"> 2.ん？「適切なエラーハンドリング」って何?</span>
+
+<span class="markdownHeadingDelimiter">####</span><span class="markdownH4"> </span>[<span class="markdownLinkText">Where is my favorite helper function for testing?</span>]<span class="markdownLinkDelimiter">(</span><span class="markdownUrl"><a href="https://golang.org/doc/faq#testing_framework">https://golang.org/doc/faq#testing_framework</a></span><span class="markdownLinkDelimiter">)</span>
+
+<span class="markdownBlockquote">&gt; </span>Proper error handling means letting other tests run after one has failed, so that the person debugging the failure gets a complete picture of what is wrong.
+
+<span class="markdownBlockquote">&gt; </span>適切なエラーハンドリングとは、あるテストが失敗したとしても他のテストを実行できるようにすること。つまりデバッグをする人が何が問題なのかを完全にに把握できるようにすること。(意訳)
+
+<span class="markdownBlockquote">&gt; </span>It is more useful for a test to report that isPrime gives the wrong answer for 2, 3, 5, and 7 (or for 2, 4, 8, and 16) than to report that isPrime gives the wrong answer for 2 and therefore no more tests were run.
+
+<span class="markdownBlockquote">&gt; </span>isPrime って関数が 「2 を渡したときに失敗する」とレポートしてテストが終わるより、 「2, 3, 5, 7 を渡したときに失敗する」とレポートした方がわかる。(意訳)
+
+=&gt; どこで何が問題になってるのか明瞭にする必要がある
+
+<span class="markdownHeadingDelimiter">###</span><span class="markdownH3"> 3. じゃあ具体的にはどんなエラーレポートがいいの？</span>
+
+<span class="markdownHeadingDelimiter">####</span><span class="markdownH4"> </span>[<span class="markdownLinkText">Where is my favorite helper function for testing?</span>]<span class="markdownLinkDelimiter">(</span><span class="markdownUrl"><a href="https://golang.org/doc/faq#testing_framework">https://golang.org/doc/faq#testing_framework</a></span><span class="markdownLinkDelimiter">)</span>
+
+<span class="markdownBlockquote">&gt; </span>The standard Go library is full of illustrative examples, such as in [<span class="markdownLinkText">the formatting tests for the fmt package</span>]<span class="markdownLinkDelimiter">(</span><span class="markdownUrl"><a href="https://golang.org/src/fmt/fmt_test.go">https://golang.org/src/fmt/fmt_test.go</a></span><span class="markdownLinkDelimiter">)</span>.
+
+<span class="markdownBlockquote">&gt; </span>標準パッケージに実例が山ほどある。[<span class="markdownLinkText">fmt</span>]<span class="markdownLinkDelimiter">(</span><span class="markdownUrl"><a href="https://golang.org/src/fmt/fmt_test.go">https://golang.org/src/fmt/fmt_test.go</a></span><span class="markdownLinkDelimiter">)</span>とかね。(意訳)
+
+<span class="markdownHeadingDelimiter">###</span><span class="markdownH3"> 4. 見てみよう</span>
+
+<span class="markdownCodeDelimiter">```sh</span>
+v <span class="PreProc">$GOPATH</span>/src/github.com/golang/go/src/fmt/fmt_test.go
+<span class="markdownCodeDelimiter">```</span>
+
+<a href="https://golang.org/src/fmt/fmt">https://golang.org/src/fmt/fmt</a><span class="Error">_</span>test.go
+
+<span class="markdownCodeDelimiter">```go</span>
+t.<span class="goFunctionCall">Errorf</span>(<span class="String">&quot;f(</span><span class="Special">%v</span><span class="String">) = </span><span class="Special">%v</span><span class="String"> want </span><span class="Special">%v</span><span class="String">&quot;</span>, arg, got, want)
+<span class="markdownCodeDelimiter">```</span>
+
+<span class="markdownCodeDelimiter">```go</span>
+t.<span class="goFunctionCall">Errorf</span>(<span class="String">&quot;f(</span><span class="Special">%v</span><span class="String">) =&gt; </span><span class="Special">%v</span><span class="String">, want </span><span class="Special">%v</span><span class="String">&quot;</span>, arg, got, want)
+<span class="markdownCodeDelimiter">```</span>
+
+<span class="markdownCodeDelimiter">```go</span>
+t.<span class="goFunctionCall">Errorf</span>(<span class="String">&quot;got </span><span class="Special">%v</span><span class="String"> expected </span><span class="Special">%v</span><span class="String">&quot;</span>, got, expect<span class="String">`)</span>
+<span class="markdownCodeDelimiter">```</span>
+
+ここらへんが多い様子
+
+<span class="markdownHeadingDelimiter">###</span><span class="markdownH3"> 4. 見てみよう2</span>
+
+<span class="markdownCodeDelimiter">```sh</span>
+v <span class="PreProc">$GOPATH</span>/src/github.com/golang/go/src/reflect/all_test.go
+<span class="markdownCodeDelimiter">```</span>
+
+<span class="markdownCodeDelimiter">```go</span>
+t.<span class="goFunctionCall">Errorf</span>(<span class="String">&quot;hoges (</span><span class="Special">%#v</span><span class="String">) do NOT-ok (but should)&quot;</span>, elem)
+<span class="markdownCodeDelimiter">```</span>
+
+<span class="markdownCodeDelimiter">```sh</span>
+$ v <span class="PreProc">$GOPAHT</span>/src/github.com/golang/go/src/os/os_test.go
+<span class="markdownCodeDelimiter">```</span>
+
+<span class="markdownCodeDelimiter">```go</span>
+t.<span class="goFunctionCall">Errorf</span>(<span class="String">&quot;a shoud not be hoge&quot;</span>)
+<span class="markdownCodeDelimiter">```</span>
+
+かなり柔軟性がある!
+
+<span class="markdownHeadingDelimiter">###</span><span class="markdownH3"> 5. 見てみよう3</span>
+
+<span class="markdownCodeDelimiter">```sh</span>
+v <span class="PreProc">$GOPATH</span>/src/github.com/docker/cli/opts/hosts_test.go
+<span class="markdownCodeDelimiter">```</span>
+
+<span class="markdownCodeDelimiter">```go</span>
+t.<span class="goFunctionCall">Errorf</span>(<span class="String">&quot;tcp </span><span class="Special">%v</span><span class="String"> address expected error </span><span class="Special">%v</span><span class="String"> return, got </span><span class="Special">%s</span><span class="String"> and addr </span><span class="Special">%v</span><span class="String">&quot;</span>, invalidAddr, expectedError, err, addr)
+<span class="markdownCodeDelimiter">```</span>
+
+簡略化せずに文章で書いたり
+
+<span class="markdownCodeDelimiter">```sh</span>
+v <span class="PreProc">$GOPATH</span>/src/github.com/gohugoio/hugo/hugolib/site_test.go<span class="Special">`</span>
+<span class="markdownCodeDelimiter">```</span>
+
+
+<span class="markdownCodeDelimiter">```go</span>
+t.<span class="goFunctionCall">Errorf</span>(<span class="String">&quot;GroupByParam didn't return an expected error&quot;</span>)
+<span class="markdownCodeDelimiter">```</span>
+
+エラーを期待するテストもある!
+
+<span class="markdownHeadingDelimiter">###</span><span class="markdownH3"> 6. まとめ</span>
+
+<span class="markdownListMarker">-</span> Go は適切なエラーハンドリングをするためにテスティングフレームワークを使わない
+
+<span class="markdownListMarker">-</span> 適切なエラーハンドリングとは、デバッグをする人が何が問題なのかを完全にに把握できること
+
+<span class="markdownListMarker">-</span> 標準パッケージでもOSSでも、書き方はかなり異なる
+
+<span class="markdownListMarker">-</span> 伝えたい情報を伝えることさえできればよい?
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
