@@ -44,41 +44,66 @@
 
 ### 4. 見てみよう
 
-`v $GOPATH/src/github.com/golang/go/src/fmt/fmt_test.go`
+```sh
+v $GOPATH/src/github.com/golang/go/src/fmt/fmt_test.go
+```
 
 https://golang.org/src/fmt/fmt_test.go
 
-`t.Errorf("f(%v) = %v want %v", arg, got, want)`
+```go
+t.Errorf("f(%v) = %v want %v", arg, got, want)
+```
 
-`t.Errorf("f(%v) => %v, want %v", arg, got, want)`
+```go
+t.Errorf("f(%v) => %v, want %v", arg, got, want)
+```
 
-`t.Errorf("got %v expected %v", got, expect`)
+```go
+t.Errorf("got %v expected %v", got, expect`)
+```
 
 ここらへんが多い様子
 
 ### 4. 見てみよう2
 
-`$ v $GOPAHT/src/github.com/golang/go/src/reflect/all_test.go`
+```sh
+v $GOPATH/src/github.com/golang/go/src/reflect/all_test.go
+```
 
-`t.Errorf("hoges (%#v) do NOT-ok (but should)", elem)`
+```go
+t.Errorf("hoges (%#v) do NOT-ok (but should)", elem)
+```
 
+```sh
 $ v $GOPAHT/src/github.com/golang/go/src/os/os_test.go
+```
 
-`t.Errorf("a shoud not be hoge")`
+```go
+t.Errorf("a shoud not be hoge")
+```
 
 かなり柔軟性がある!
 
 ### 5. 見てみよう3
 
-`v $GOPATH/src/github.com/docker/cli/opts/hosts_test.go`
+```sh
+v $GOPATH/src/github.com/docker/cli/opts/hosts_test.go
+```
 
-`t.Errorf("tcp %v address expected error %v return, got %s and addr %v", invalidAddr, expectedError, err, addr)`
+```go
+t.Errorf("tcp %v address expected error %v return, got %s and addr %v", invalidAddr, expectedError, err, addr)
+```
 
 簡略化せずに文章で書いたり
 
-`v $GOPATH/src/github.com/gohugoio/hugo/hugolib/site_test.go`
+```sh
+v $GOPATH/src/github.com/gohugoio/hugo/hugolib/site_test.go
+```
 
-`t.Errorf("GroupByParam didn't return an expected error")`
+
+```go
+t.Errorf("GroupByParam didn't return an expected error")
+```
 
 エラーを期待するテストもある!
 
